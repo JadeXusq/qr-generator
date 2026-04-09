@@ -29,10 +29,26 @@
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(252deg 85% 60%), hsl(280deg 80% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(252deg 85% 60%) 0%, hsl(200deg 90% 55%) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(240deg 20% 98%) 0%, hsl(240deg 15% 95%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0deg 0% 100%) 0%, hsl(240deg 20% 98%) 100%);
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(252deg 85% 60%),
+      hsl(280deg 80% 65%)
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(252deg 85% 60%) 0%,
+      hsl(200deg 90% 55%) 100%
+    );
+    --gradient-surface: linear-gradient(
+      180deg,
+      hsl(240deg 20% 98%) 0%,
+      hsl(240deg 15% 95%) 100%
+    );
+    --gradient-card: linear-gradient(
+      145deg,
+      hsl(0deg 0% 100%) 0%,
+      hsl(240deg 20% 98%) 100%
+    );
 
     /* Shadows */
     --shadow-elegant: 0 10px 40px -12px hsl(252deg 85% 60% / 0.15);
@@ -65,10 +81,26 @@
     --border: 240 10% 18%;
     --input: 240 10% 18%;
     --ring: 252 85% 65%;
-    --gradient-primary: linear-gradient(135deg, hsl(252deg 85% 65%), hsl(280deg 80% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(252deg 60% 25%) 0%, hsl(200deg 60% 20%) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(240deg 15% 8%) 0%, hsl(240deg 15% 10%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(240deg 15% 12%) 0%, hsl(240deg 15% 10%) 100%);
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(252deg 85% 65%),
+      hsl(280deg 80% 70%)
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(252deg 60% 25%) 0%,
+      hsl(200deg 60% 20%) 100%
+    );
+    --gradient-surface: linear-gradient(
+      180deg,
+      hsl(240deg 15% 8%) 0%,
+      hsl(240deg 15% 10%) 100%
+    );
+    --gradient-card: linear-gradient(
+      145deg,
+      hsl(240deg 15% 12%) 0%,
+      hsl(240deg 15% 10%) 100%
+    );
     --shadow-elegant: 0 10px 40px -12px hsl(252deg 85% 65% / 0.2);
     --shadow-glow: 0 0 30px hsl(252deg 85% 65% / 0.15);
     --shadow-card-hover: 0 20px 60px -15px hsl(0deg 0% 0% / 0.4);
@@ -83,7 +115,8 @@
   body {
     @apply bg-background text-foreground antialiased;
 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
   }
 }
 
@@ -125,6 +158,14 @@
     @apply backdrop-blur-xl border;
 
     background: hsl(var(--card) / 0.6);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 

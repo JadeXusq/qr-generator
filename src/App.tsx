@@ -1,32 +1,32 @@
-import { useState, useMemo } from "react"
-import { Header } from "@/components/layout/Header"
-import { TabNav } from "@/components/layout/TabNav"
-import { URLForm } from "@/components/forms/URLForm"
-import { TextForm } from "@/components/forms/TextForm"
-import { VCardForm } from "@/components/forms/VCardForm"
-import { WiFiForm } from "@/components/forms/WiFiForm"
-import { StyleCustomizer } from "@/components/StyleCustomizer"
-import { QRPreview } from "@/components/QRPreview"
-import { ExportPanel } from "@/components/ExportPanel"
-import { BatchGenerator } from "@/components/BatchGenerator"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useQRCode } from "@/hooks/useQRCode"
+import { useState, useMemo } from "react";
+import { Header } from "@/components/layout/Header";
+import { TabNav } from "@/components/layout/TabNav";
+import { URLForm } from "@/components/forms/URLForm";
+import { TextForm } from "@/components/forms/TextForm";
+import { VCardForm } from "@/components/forms/VCardForm";
+import { WiFiForm } from "@/components/forms/WiFiForm";
+import { StyleCustomizer } from "@/components/StyleCustomizer";
+import { QRPreview } from "@/components/QRPreview";
+import { ExportPanel } from "@/components/ExportPanel";
+import { BatchGenerator } from "@/components/BatchGenerator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQRCode } from "@/hooks/useQRCode";
 import {
   type QRDataType,
   type VCardData,
   type WiFiData,
   formatVCard,
   formatWiFi,
-} from "@/lib/qr-utils"
-import { Settings2, Eye } from "lucide-react"
-import { Toaster } from "sonner"
+} from "@/lib/qr-utils";
+import { Settings2, Eye } from "lucide-react";
+import { Toaster } from "sonner";
 
 function App() {
-  const [activeTab, setActiveTab] = useState<QRDataType | "batch">("url")
+  const [activeTab, setActiveTab] = useState<QRDataType | "batch">("url");
 
   // Form states
-  const [urlData, setUrlData] = useState("")
-  const [textData, setTextData] = useState("")
+  const [urlData, setUrlData] = useState("");
+  const [textData, setTextData] = useState("");
   const [vcardData, setVcardData] = useState<VCardData>({
     firstName: "",
     lastName: "",
@@ -35,36 +35,36 @@ function App() {
     organization: "",
     title: "",
     url: "",
-  })
+  });
   const [wifiData, setWifiData] = useState<WiFiData>({
     ssid: "",
     password: "",
     encryption: "WPA",
     hidden: false,
-  })
+  });
 
   // Compute QR data string
   const qrDataString = useMemo(() => {
     switch (activeTab) {
       case "url":
-        return urlData
+        return urlData;
       case "text":
-        return textData
+        return textData;
       case "vcard":
         return vcardData.firstName || vcardData.lastName
           ? formatVCard(vcardData)
-          : ""
+          : "";
       case "wifi":
-        return wifiData.ssid ? formatWiFi(wifiData) : ""
+        return wifiData.ssid ? formatWiFi(wifiData) : "";
       default:
-        return ""
+        return "";
     }
-  }, [activeTab, urlData, textData, vcardData, wifiData])
+  }, [activeTab, urlData, textData, vcardData, wifiData]);
 
   const { style, updateStyle, containerRef, downloadPNG, downloadSVG } =
-    useQRCode(qrDataString)
+    useQRCode(qrDataString);
 
-  const hasData = qrDataString.length > 0
+  const hasData = qrDataString.length > 0;
 
   return (
     <div className="min-h-screen gradient-surface">
@@ -73,13 +73,14 @@ function App() {
 
       <main className="container py-8 space-y-8">
         {/* Hero section */}
-        <section className="text-center space-y-3 py-4">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground">
+        <section className="text-center space-y-3 py-2 sm:py-4">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             创建精美的
             <span className="text-gradient"> 自定义二维码</span>
           </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
-            支持 URL、文本、联系人名片、WiFi 凭证，自定义颜色与 Logo，批量生成并导出高分辨率图片
+          <p className="text-muted-foreground text-sm sm:text-base max-w-lg mx-auto">
+            支持 URL、文本、联系人名片、WiFi 凭证，自定义颜色与
+            Logo，批量生成并导出高分辨率图片
           </p>
         </section>
 
@@ -140,7 +141,9 @@ function App() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <QRPreview
-                    containerRef={containerRef as React.RefObject<HTMLDivElement>}
+                    containerRef={
+                      containerRef as React.RefObject<HTMLDivElement>
+                    }
                     hasData={hasData}
                   />
                   <div className="border-t pt-6">
@@ -166,7 +169,7 @@ function App() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
