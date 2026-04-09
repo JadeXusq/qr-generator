@@ -12,6 +12,12 @@
 - [ExportPanel.tsx](file://src/components/ExportPanel.tsx)
 </cite>
 
+## 更新摘要
+**变更内容**
+- 更新了useQRCode Hook的getBlob方法文档，新增对PNG和SVG格式Blob生成能力的详细说明
+- 增强了getBlob方法的类型处理说明，包括Buffer、字符串和Blob等多种数据源的支持
+- 补充了getBlob方法在不同环境下的兼容性处理说明
+
 ## 目录
 1. [简介](#简介)
 2. [项目结构](#项目结构)
@@ -65,9 +71,9 @@ C2 --> U2
 C3 --> U2
 ```
 
-图表来源
+**图表来源**
 - [App.tsx:1-173](file://src/App.tsx#L1-L173)
-- [useQRCode.ts:1-75](file://src/hooks/useQRCode.ts#L1-L75)
+- [useQRCode.ts:1-90](file://src/hooks/useQRCode.ts#L1-L90)
 - [useTheme.ts:1-26](file://src/hooks/useTheme.ts#L1-L26)
 - [qr-utils.ts:1-151](file://src/lib/qr-utils.ts#L1-L151)
 - [utils.ts:1-7](file://src/lib/utils.ts#L1-L7)
@@ -75,7 +81,7 @@ C3 --> U2
 - [StyleCustomizer.tsx:1-193](file://src/components/StyleCustomizer.tsx#L1-L193)
 - [ExportPanel.tsx:1-83](file://src/components/ExportPanel.tsx#L1-L83)
 
-章节来源
+**章节来源**
 - [App.tsx:1-173](file://src/App.tsx#L1-L173)
 
 ## 核心组件
@@ -93,8 +99,8 @@ C3 --> U2
   - 返回：包含当前主题状态与切换函数的对象
   - 典型场景：全局主题切换；与系统偏好联动；UI 组件根据主题渲染不同样式
 
-章节来源
-- [useQRCode.ts:5-75](file://src/hooks/useQRCode.ts#L5-L75)
+**章节来源**
+- [useQRCode.ts:5-90](file://src/hooks/useQRCode.ts#L5-L90)
 - [useTheme.ts:3-25](file://src/hooks/useTheme.ts#L3-L25)
 
 ## 架构总览
@@ -129,7 +135,7 @@ Export->>QRHook : downloadPNG(size)/downloadSVG()
 QRHook-->>User : 下载文件
 ```
 
-图表来源
+**图表来源**
 - [App.tsx:47-65](file://src/App.tsx#L47-L65)
 - [useQRCode.ts:11-29](file://src/hooks/useQRCode.ts#L11-L29)
 - [qr-utils.ts:63-101](file://src/lib/qr-utils.ts#L63-L101)
@@ -152,7 +158,7 @@ QRHook-->>User : 下载文件
   - updateStyle(updates): 合并部分样式更新，触发重渲染
   - downloadPNG(size): 以指定尺寸导出 PNG 文件
   - downloadSVG(): 以固定尺寸导出 SVG 文件
-  - getBlob(size, format): 获取 PNG 或 SVG 的 Blob 数据
+  - getBlob(size, format): 获取 PNG 或 SVG 的 Blob 数据，支持多种数据源类型处理
 - 返回值结构
   - style: 当前样式对象
   - setStyle: 完全替换样式
@@ -174,12 +180,12 @@ Append --> SavePrev["保存 prevDataRef.current = data"]
 SavePrev --> End(["返回 {style, setStyle, updateStyle, containerRef, qrCode, downloadPNG, downloadSVG, getBlob}"])
 ```
 
-图表来源
+**图表来源**
 - [useQRCode.ts:5-29](file://src/hooks/useQRCode.ts#L5-L29)
 - [qr-utils.ts:63-101](file://src/lib/qr-utils.ts#L63-L101)
 
-章节来源
-- [useQRCode.ts:5-75](file://src/hooks/useQRCode.ts#L5-L75)
+**章节来源**
+- [useQRCode.ts:5-90](file://src/hooks/useQRCode.ts#L5-L90)
 - [qr-utils.ts:14-23](file://src/lib/qr-utils.ts#L14-L23)
 
 #### 使用场景与最佳实践
@@ -193,7 +199,7 @@ SavePrev --> End(["返回 {style, setStyle, updateStyle, containerRef, qrCode, d
   - 在导出前检查 hasData，防止空数据导出
   - 在导出过程中禁用按钮，避免重复触发
 
-章节来源
+**章节来源**
 - [App.tsx:47-65](file://src/App.tsx#L47-L65)
 - [QRPreview.tsx:27-33](file://src/components/QRPreview.tsx#L27-L33)
 - [StyleCustomizer.tsx:20-36](file://src/components/StyleCustomizer.tsx#L20-L36)
@@ -222,10 +228,10 @@ AddDark --> End(["返回 {isDark, toggle}"])
 RemoveDark --> End
 ```
 
-图表来源
+**图表来源**
 - [useTheme.ts:3-25](file://src/hooks/useTheme.ts#L3-L25)
 
-章节来源
+**章节来源**
 - [useTheme.ts:3-25](file://src/hooks/useTheme.ts#L3-L25)
 
 #### 使用场景与最佳实践
@@ -234,8 +240,46 @@ RemoveDark --> End
 - 结合 Tailwind 的 dark: 前缀，实现自动主题适配
 - 注意在服务端渲染环境中对 window 的存在性进行判断
 
-章节来源
+**章节来源**
 - [useTheme.ts:4-12](file://src/hooks/useTheme.ts#L4-L12)
+
+### getBlob 方法增强详解
+
+**更新** 增强了 getBlob 方法，支持 PNG 和 SVG 格式的 Blob 生成能力，包括 Buffer、字符串和 Blob 等多种数据源的类型处理
+
+- 方法签名
+  - getBlob(size: number, format: "png" | "svg" = "png"): Promise<Blob | null>
+- 参数说明
+  - size: number - 导出尺寸大小
+  - format: "png" | "svg" - 导出格式，默认为 "png"
+- 返回值
+  - Promise<Blob | null> - 成功时返回 Blob 对象，失败时返回 null
+- 类型处理能力
+  - SVG 格式支持：
+    - 字符串类型：直接转换为 Blob，类型为 "image/svg+xml"
+    - Blob 类型：直接返回原对象
+    - Buffer 类型：使用 TextDecoder 解码后转换为 Blob
+  - PNG 格式支持：
+    - Blob 类型：直接返回原对象
+    - Buffer 类型：转换为 Uint8Array 后创建 Blob
+- 环境兼容性
+  - 浏览器环境：支持 TextDecoder 和 Blob 构造函数
+  - Node.js 环境：通过 ArrayBuffer 处理 Buffer 类型数据
+- 错误处理
+  - 空数据时返回 null
+  - RawData 获取失败时返回 null
+
+**章节来源**
+- [useQRCode.ts:53-77](file://src/hooks/useQRCode.ts#L53-L77)
+
+#### 使用场景与最佳实践
+- 在需要程序化处理二维码导出时使用 getBlob 方法
+- 支持将 Blob 数据用于文件下载、Canvas 绘制或其他二进制处理
+- 在服务端渲染环境中注意 Buffer 类型的处理
+- 结合文件系统 API 进行自定义导出逻辑
+
+**章节来源**
+- [useQRCode.ts:53-77](file://src/hooks/useQRCode.ts#L53-L77)
 
 ## 依赖关系分析
 - useQRCode 依赖 qr-utils.ts 中的 createQRCode 与默认样式 defaultStyle
@@ -255,13 +299,13 @@ Style --> U
 Export --> U
 ```
 
-图表来源
+**图表来源**
 - [App.tsx:13-65](file://src/App.tsx#L13-L65)
 - [useQRCode.ts:1-3](file://src/hooks/useQRCode.ts#L1-L3)
 - [qr-utils.ts:1-151](file://src/lib/qr-utils.ts#L1-L151)
 - [utils.ts:1-7](file://src/lib/utils.ts#L1-L7)
 
-章节来源
+**章节来源**
 - [App.tsx:13-65](file://src/App.tsx#L13-L65)
 - [qr-utils.ts:14-23](file://src/lib/qr-utils.ts#L14-L23)
 
@@ -270,14 +314,15 @@ Export --> U
   - 仅在 data 或 style 变化时重建二维码，避免频繁创建
   - 使用 useCallback 包装导出与样式更新函数，减少子组件重渲染
   - 使用 containerRef 内容清空后再 append，避免重复挂载
+  - getBlob 方法使用缓存的二维码实例，避免重复创建
 - useTheme
   - 仅在 isDark 变化时操作根元素类名，开销极低
 - App
   - 使用 useMemo 计算 qrDataString，避免不必要的重渲染
   - 将导出过程封装为异步函数并在 finally 中恢复按钮状态，提升交互体验
 
-章节来源
-- [useQRCode.ts:31-62](file://src/hooks/useQRCode.ts#L31-L62)
+**章节来源**
+- [useQRCode.ts:31-77](file://src/hooks/useQRCode.ts#L31-L77)
 - [useQRCode.ts:11-29](file://src/hooks/useQRCode.ts#L11-L29)
 - [App.tsx:47-65](file://src/App.tsx#L47-L65)
 
@@ -291,11 +336,16 @@ Export --> U
 - 导出失败
   - 确认 hasData 为真，导出函数会在无数据时直接返回
   - 检查浏览器是否允许下载，以及网络资源（如 Logo）可访问
+  - 对于 getBlob 方法，确认 format 参数正确且数据源类型支持
 - 主题切换无效
   - 确认根元素存在且可写，SSR 环境需判断 typeof window
   - 检查是否存在其他样式覆盖了 dark 类名
+- getBlob 方法问题
+  - 检查数据源类型是否为支持的 Buffer、字符串或 Blob
+  - 在 Node.js 环境中确认 Buffer 类型数据的正确处理
+  - 确认 RawData 获取成功，避免返回 null
 
-章节来源
+**章节来源**
 - [useQRCode.ts:11-18](file://src/hooks/useQRCode.ts#L11-L18)
 - [QRPreview.tsx:27-33](file://src/components/QRPreview.tsx#L27-L33)
 - [ExportPanel.tsx:21-37](file://src/components/ExportPanel.tsx#L21-L37)
@@ -305,6 +355,7 @@ Export --> U
 - useQRCode 提供了完整的二维码生成、样式管理与导出能力，适合在表单与预览组件中组合使用
 - useTheme 提供简洁的主题切换逻辑，易于与 UI 库的暗色模式配合
 - 通过 useMemo、useCallback 与细粒度状态更新，可显著提升性能与用户体验
+- getBlob 方法的增强使其更适合程序化处理和自定义导出需求
 - 建议在实际项目中遵循本文档的最佳实践，确保 Hook 的正确使用与稳定运行
 
 ## 附录
@@ -321,8 +372,12 @@ Export --> U
   - 提供一组合理的默认配色与样式，便于快速上手
 - 导出尺寸 exportSizes
   - 提供常见导出尺寸选项，便于用户选择
+- getBlob 方法支持的格式
+  - PNG: 图像格式，支持 Buffer 和 Blob 类型
+  - SVG: 矢量格式，支持字符串、Blob 和 Buffer 类型
 
-章节来源
+**章节来源**
 - [qr-utils.ts:14-23](file://src/lib/qr-utils.ts#L14-L23)
 - [qr-utils.ts:103-112](file://src/lib/qr-utils.ts#L103-L112)
 - [qr-utils.ts:134-139](file://src/lib/qr-utils.ts#L134-L139)
+- [useQRCode.ts:53-77](file://src/hooks/useQRCode.ts#L53-L77)
