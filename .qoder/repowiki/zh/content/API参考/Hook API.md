@@ -14,9 +14,9 @@
 
 ## 更新摘要
 **变更内容**
-- 更新了useQRCode Hook的getBlob方法文档，新增对PNG和SVG格式Blob生成能力的详细说明
-- 增强了getBlob方法的类型处理说明，包括Buffer、字符串和Blob等多种数据源的支持
-- 补充了getBlob方法在不同环境下的兼容性处理说明
+- 更新了useQRCode Hook的getBlob方法文档，新增对Buffer和Uint8Array类型的增强支持
+- 增强了getBlob方法的类型处理说明，包括SVG和PNG格式的Buffer数据处理能力
+- 补充了Node.js环境下的数据类型兼容性处理说明
 
 ## 目录
 1. [简介](#简介)
@@ -73,7 +73,7 @@ C3 --> U2
 
 **图表来源**
 - [App.tsx:1-173](file://src/App.tsx#L1-L173)
-- [useQRCode.ts:1-90](file://src/hooks/useQRCode.ts#L1-L90)
+- [useQRCode.ts:1-105](file://src/hooks/useQRCode.ts#L1-L105)
 - [useTheme.ts:1-26](file://src/hooks/useTheme.ts#L1-L26)
 - [qr-utils.ts:1-151](file://src/lib/qr-utils.ts#L1-L151)
 - [utils.ts:1-7](file://src/lib/utils.ts#L1-L7)
@@ -100,7 +100,7 @@ C3 --> U2
   - 典型场景：全局主题切换；与系统偏好联动；UI 组件根据主题渲染不同样式
 
 **章节来源**
-- [useQRCode.ts:5-90](file://src/hooks/useQRCode.ts#L5-L90)
+- [useQRCode.ts:9-105](file://src/hooks/useQRCode.ts#L9-L105)
 - [useTheme.ts:3-25](file://src/hooks/useTheme.ts#L3-L25)
 
 ## 架构总览
@@ -137,7 +137,7 @@ QRHook-->>User : 下载文件
 
 **图表来源**
 - [App.tsx:47-65](file://src/App.tsx#L47-L65)
-- [useQRCode.ts:11-29](file://src/hooks/useQRCode.ts#L11-L29)
+- [useQRCode.ts:15-33](file://src/hooks/useQRCode.ts#L15-L33)
 - [qr-utils.ts:63-101](file://src/lib/qr-utils.ts#L63-L101)
 - [QRPreview.tsx:27-33](file://src/components/QRPreview.tsx#L27-L33)
 - [StyleCustomizer.tsx:20-36](file://src/components/StyleCustomizer.tsx#L20-L36)
@@ -181,11 +181,11 @@ SavePrev --> End(["返回 {style, setStyle, updateStyle, containerRef, qrCode, d
 ```
 
 **图表来源**
-- [useQRCode.ts:5-29](file://src/hooks/useQRCode.ts#L5-L29)
+- [useQRCode.ts:9-33](file://src/hooks/useQRCode.ts#L9-L33)
 - [qr-utils.ts:63-101](file://src/lib/qr-utils.ts#L63-L101)
 
 **章节来源**
-- [useQRCode.ts:5-90](file://src/hooks/useQRCode.ts#L5-L90)
+- [useQRCode.ts:9-105](file://src/hooks/useQRCode.ts#L9-L105)
 - [qr-utils.ts:14-23](file://src/lib/qr-utils.ts#L14-L23)
 
 #### 使用场景与最佳实践
@@ -269,8 +269,10 @@ RemoveDark --> End
   - 空数据时返回 null
   - RawData 获取失败时返回 null
 
+**更新** 增强了 Buffer 类型的处理能力，现在支持更广泛的二进制数据格式
+
 **章节来源**
-- [useQRCode.ts:53-77](file://src/hooks/useQRCode.ts#L53-L77)
+- [useQRCode.ts:60-92](file://src/hooks/useQRCode.ts#L60-L92)
 
 #### 使用场景与最佳实践
 - 在需要程序化处理二维码导出时使用 getBlob 方法
@@ -279,7 +281,7 @@ RemoveDark --> End
 - 结合文件系统 API 进行自定义导出逻辑
 
 **章节来源**
-- [useQRCode.ts:53-77](file://src/hooks/useQRCode.ts#L53-L77)
+- [useQRCode.ts:60-92](file://src/hooks/useQRCode.ts#L60-L92)
 
 ## 依赖关系分析
 - useQRCode 依赖 qr-utils.ts 中的 createQRCode 与默认样式 defaultStyle
@@ -322,8 +324,8 @@ Export --> U
   - 将导出过程封装为异步函数并在 finally 中恢复按钮状态，提升交互体验
 
 **章节来源**
-- [useQRCode.ts:31-77](file://src/hooks/useQRCode.ts#L31-L77)
-- [useQRCode.ts:11-29](file://src/hooks/useQRCode.ts#L11-L29)
+- [useQRCode.ts:35-92](file://src/hooks/useQRCode.ts#L35-L92)
+- [useQRCode.ts:15-33](file://src/hooks/useQRCode.ts#L15-L33)
 - [App.tsx:47-65](file://src/App.tsx#L47-L65)
 
 ## 故障排查指南
@@ -346,7 +348,7 @@ Export --> U
   - 确认 RawData 获取成功，避免返回 null
 
 **章节来源**
-- [useQRCode.ts:11-18](file://src/hooks/useQRCode.ts#L11-L18)
+- [useQRCode.ts:15-22](file://src/hooks/useQRCode.ts#L15-L22)
 - [QRPreview.tsx:27-33](file://src/components/QRPreview.tsx#L27-L33)
 - [ExportPanel.tsx:21-37](file://src/components/ExportPanel.tsx#L21-L37)
 - [useTheme.ts:4-12](file://src/hooks/useTheme.ts#L4-L12)
@@ -355,7 +357,7 @@ Export --> U
 - useQRCode 提供了完整的二维码生成、样式管理与导出能力，适合在表单与预览组件中组合使用
 - useTheme 提供简洁的主题切换逻辑，易于与 UI 库的暗色模式配合
 - 通过 useMemo、useCallback 与细粒度状态更新，可显著提升性能与用户体验
-- getBlob 方法的增强使其更适合程序化处理和自定义导出需求
+- getBlob 方法的增强使其更适合程序化处理和自定义导出需求，特别是在处理二进制数据时更加稳健
 - 建议在实际项目中遵循本文档的最佳实践，确保 Hook 的正确使用与稳定运行
 
 ## 附录
@@ -380,4 +382,4 @@ Export --> U
 - [qr-utils.ts:14-23](file://src/lib/qr-utils.ts#L14-L23)
 - [qr-utils.ts:103-112](file://src/lib/qr-utils.ts#L103-L112)
 - [qr-utils.ts:134-139](file://src/lib/qr-utils.ts#L134-L139)
-- [useQRCode.ts:53-77](file://src/hooks/useQRCode.ts#L53-L77)
+- [useQRCode.ts:60-92](file://src/hooks/useQRCode.ts#L60-L92)

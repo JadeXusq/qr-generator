@@ -4,7 +4,7 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/projects/generator/code/",
+  base: "/qr-generator/",
   build: {
     outDir: "docs",
     emptyOutDir: true,
